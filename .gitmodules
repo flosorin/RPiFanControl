@@ -1,0 +1,3 @@
+[submodule "src/CppRPiGPIO"]
+	path = src/CppRPiGPIO
+	url = https://github.com/flosorin/CppRPiGPIO.git

@@ -1,0 +1,12 @@
+[Unit]
+Description=Control rapsberry pi fan according to its CPU temperature
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/FanControl
+TimeoutStartSec=0
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
