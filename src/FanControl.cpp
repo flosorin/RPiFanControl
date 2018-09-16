@@ -2,11 +2,11 @@
 #include <sys/signal.h> // Needed for signal actions
 #include <cstring>
 
-#define FAN_PIN    18 // Positive pin of the fan
-#define MAX_TEMP   55 // Maximum temperature in Celsius, after which we trigger the fan
-#define MIN_TEMP   45 // Minimum temperature in Celsius, below which we turn off the fan
-#define SLEEP_TIME  5 // Time to wait between measures
-#define MAX_BUFFER 100 // Max line length for vcgencmd reading
+#define FAN_PIN     18  // "P" pin of the NPN transistor, used to trigger the fan
+#define MAX_TEMP    55  // Maximum temperature in Celsius, after which we trigger the fan
+#define MIN_TEMP    45  // Minimum temperature in Celsius, below which we turn off the fan
+#define SLEEP_TIME   5  // Time to wait between measures
+#define MAX_BUFFER 100  // Max line length for vcgencmd reading
 
 bool running = true;
 
