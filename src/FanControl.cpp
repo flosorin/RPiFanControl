@@ -60,6 +60,7 @@ int main(void)
 int getCPUTemp()
 {
     std::string data;
+    int temperature = 0;
     FILE * stream;
     char buffer[MAX_BUFFER];
     stream = popen("vcgencmd measure_temp", "r");
@@ -72,9 +73,16 @@ int getCPUTemp()
            data.append(std::string(1, buffer[6]));
         }
         pclose(stream);
-        return std::stoi(data);
+	try
+	{
+            temperature = std::stoi(data);
+	}
+	catch(const std::exception& e)
+	{
+	    std::cerr << "Failed to read temperature from vgencmd: " << e.what() << std::endl;
+	}
     }
-    
-    return 0;
+
+    return temperature;
 }
 
