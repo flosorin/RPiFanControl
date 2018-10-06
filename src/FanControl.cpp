@@ -1,20 +1,24 @@
 #include "CppRPiGPIO/CppRPiGPIO.h"
 #include <sys/signal.h> // Needed for signal actions
 #include <cstring>
+#include <mutex>
+#include <condition_variable>
 
 #define FAN_PIN     18  // "P" pin of the NPN transistor, used to trigger the fan
 #define MAX_TEMP    55  // Maximum temperature in Celsius, after which we trigger the fan
 #define MIN_TEMP    45  // Minimum temperature in Celsius, below which we turn off the fan
-#define SLEEP_TIME   5  // Time to wait between measures
+#define SLEEP_TIME  30  // Time to wait in seconds between measures
 #define MAX_BUFFER 100  // Max line length for vcgencmd reading
 
 bool running = true;
+std::condition_variable cv;
 
 int getCPUTemp();
 
 void sighandler(int sig)
 {
     running = false;
+    cv.notify_all();
 }
 
 int main(void)
@@ -39,12 +43,15 @@ int main(void)
         if (temperature > MAX_TEMP)
         {
             gpioFan->SetValue(true);
-            sleep(SLEEP_TIME);
         }
         else if (temperature < MIN_TEMP)
         {
             gpioFan->SetValue(false);
         }
+	// Wait for next measure
+	std::mutex dummyMutex;
+	std::unique_lock<std::mutex> lock(dummyMutex);
+	cv.wait_for(lock, std::chrono::seconds(SLEEP_TIME));
     }
     
     if (gpioFan)
