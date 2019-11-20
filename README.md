@@ -2,6 +2,8 @@
 
 Simple cpp executable controlling a fan according to Raspberry Pi CPU temperature. It uses the [CppRPiGPIO class](https://github.com/flosorin/CppRPiGPIO).
 
+NB: A much simplier and liter solution is provided with a bash script with [RPiFanControlV2](https://github.com/flosorin/RPiFanControlV2). This repo is kept as an example of CppRPiGPIO implementation.
+
 ## How does it works
 
 ### Hardware
